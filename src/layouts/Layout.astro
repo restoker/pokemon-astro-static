@@ -1,0 +1,58 @@
+---
+import { siteInfo } from "@/consts/site-info";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+	title?: string;
+	image?: string;
+	description?: string;
+}
+
+const {
+	title = siteInfo.title,
+	description = siteInfo.description,
+	image,
+} = Astro.props;
+// https://pokeapi.co/api/v2/pokemon/?offset=20&limit=20
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Pokémon Static | {title}</title>
+		<ClientRouter />
+		<!-- <ClientRouter fallback="swap" /> -->
+		<!-- seo -->
+		<meta property="description" content={description} />
+		<meta name="author" content="restoker github" />
+
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta name="og:image" content={image} />
+	</head>
+	<body
+		class="bg-zinc-950 text-gray-100 container mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20"
+	>
+		<slot />
+	</body>
+</html>
+<script>
+	import Lenis from "lenis";
+
+	const lenis = new Lenis();
+
+	//get scroll value
+	lenis.on("scroll", (e) => {
+		// console.log(e);
+	});
+
+	function raf(time: number) {
+		lenis.raf(time);
+		requestAnimationFrame(raf);
+	}
+
+	requestAnimationFrame(raf);
+</script>

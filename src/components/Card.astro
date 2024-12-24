@@ -1,0 +1,50 @@
+---
+interface Props {
+    name: string;
+    url: string;
+}
+
+const { name, url } = Astro.props;
+
+const urlPart = url.split("/");
+
+const id = urlPart[urlPart.length - 2];
+
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
+// const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${id}.svg`;
+---
+
+<li class="relative">
+    <!-- href=`/pokemons/${name}` -->
+    <a
+        data-astro-history="push"
+        href=`/pokemon/${id}`
+        class="group aspect-h-10 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-900/50 focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-2 focus-within:ring-offset-teal-400 relative z-0 hover:cursor-pointer border-2 border-gray-200/10"
+    >
+        <div
+            class="bg-gradient-to-t from-cyan-800/60 to-gray-900/5 absolute z-10 blur-xl"
+        >
+        </div>
+        <img
+            transition:name={`${name}-image`}
+            alt={name}
+            src={imageSrc}
+            class="pointer-events-none object-fill group-hover:opacity-75 p-16"
+        />
+        <button type="button" class="absolute inset-0 focus:outline-none">
+            <span class="opacity-0 group-hover:opacity-100">
+                View details for {name}
+            </span>
+        </button>
+    </a>
+    <p
+        class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-50"
+    >
+        ID: {id}
+    </p>
+    <p
+        class="pointer-events-none block text-sm font-medium text-gray-300 capitalize"
+    >
+        {name}
+    </p>
+</li>
